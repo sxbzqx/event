@@ -14,21 +14,50 @@
 ## Структура
 
 ```
-.
-├── api/                # ASP.NET Core API
-│   ├── Controllers/    # HTTP-слой
-│   ├── Services/       # бизнес-логика
-│   ├── Repositories/   # доступ к БД
-│   ├── Interfaces/     # контракты сервиса и репозитория
-│   ├── DTOs/           # модели запросов и ответов
-│   ├── Exceptions/     # доменные исключения
-│   ├── Models/         # сущности БД
-│   ├── Data/           # DbContext
-│   └── Migrations/     # миграции EF Core
-├── api.Tests/          # интеграционные тесты
-├── client/             # Next.js
+event/
+├── api/                                # ASP.NET Core API
+│   ├── Controllers/                    # HTTP-слой
+│   ├── Services/                       # бизнес-логика
+│   ├── Repositories/                   # доступ к БД
+│   ├── Interfaces/                     # контракты сервиса и репозитория
+│   ├── DTOs/                           # модели запросов и ответов
+│   ├── Exceptions/                     # доменные исключения
+│   ├── Models/                         # сущности БД
+│   ├── Data/                           # DbContext
+│   ├── Migrations/                     # миграции EF Core
+│   ├── Program.cs                      # точка входа, DI, middleware
+│   ├── appsettings.json                # конфигурация
+│   └── Dockerfile      
+├── api.Tests/                          # интеграционные тесты (Testcontainers)
+├── client/                             # Next.js (App Router)
+│   ├── app/        
+│   │   ├── layout.tsx                  # общий каркас: шапка, подвал
+│   │   ├── page.tsx                    # главная: поиск, фильтры, список событий
+│   │   ├── globals.css                 # Tailwind и тема (палитра, шрифт)
+│   │   └── events/     
+│   │       ├── [id]/       
+│   │       │   ├── page.tsx            # серверная обёртка страницы события
+│   │       │   └── EventClient.tsx     # страница события: места, форма записи, участники
+│   │       └── create/
+│   │           └── page.tsx            # форма создания события
+│   ├── components/     
+│   │   ├── EventCover.tsx              # градиентная обложка события
+│   │   └── Icons.tsx                   # SVG-иконки
+│   ├── lib/        
+│   │   ├── api.ts                      # адрес API (NEXT_PUBLIC_API_URL)
+│   │   └── format.ts                   # даты, склонения, статусы мест, общие CSS-классы
+│   ├── types/      
+│   │   ├── eventData.ts                # тип ответа API: событие
+│   │   └── registration.ts             # тип ответа API: запись
+│   ├── public/                         # статические файлы
+│   ├── next.config.ts                  # настройки Next (output: standalone)
+│   ├── postcss.config.mjs              # подключение Tailwind
+│   ├── package.json
+│   └── Dockerfile
 ├── docker-compose.yml
-└── .env.example
+├── .env.example
+├── .gitignore
+└── README.md
 ```
 
 Слои: **контроллер → сервис → репозиторий**. Наружу отдаются только DTO.
