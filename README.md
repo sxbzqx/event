@@ -15,20 +15,22 @@
 
 ```
 event/
-├── api/                                # ASP.NET Core API
-│   ├── Controllers/                    # HTTP-слой
-│   ├── Services/                       # бизнес-логика
-│   ├── Repositories/                   # доступ к БД
-│   ├── Interfaces/                     # контракты сервиса и репозитория
-│   ├── DTOs/                           # модели запросов и ответов
-│   ├── Exceptions/                     # доменные исключения
-│   ├── Models/                         # сущности БД
-│   ├── Data/                           # DbContext
-│   ├── Migrations/                     # миграции EF Core
-│   ├── Program.cs                      # точка входа, DI, middleware
-│   ├── appsettings.json                # конфигурация
-│   └── Dockerfile      
-├── api.Tests/                          # интеграционные тесты (Testcontainers)
+├── backend/
+│    ├── api/                                
+│    │   ├── Controllers/                    # HTTP-слой
+│    │   ├── Services/                       # бизнес-логика
+│    │   ├── Repositories/                   # доступ к БД
+│    │   ├── Interfaces/                     # контракты сервиса и репозитория
+│    │   ├── DTOs/                           # модели запросов и ответов
+│    │   ├── Exceptions/                     # доменные исключения
+│    │   ├── Models/                         # сущности БД
+│    │   ├── Data/                           # DbContext
+│    │   ├── Migrations/                     # миграции EF Core
+│    │   ├── Program.cs                      # точка входа, DI, middleware
+│    │   ├── appsettings.json                # конфигурация
+│    │   └── Dockerfile      
+│    └── api.Tests/                          # интеграционные тесты (Testcontainers)
+│
 ├── client/                             # Next.js (App Router)
 │   ├── app/        
 │   │   ├── layout.tsx                  # общий каркас: шапка, подвал
