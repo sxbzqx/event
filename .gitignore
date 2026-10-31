@@ -1,0 +1,31 @@
+# ---------- .NET ----------
+**/bin/
+**/obj/
+.vs/
+*.user
+*.suo
+TestResults/
+*.log
+
+# ---------- Node / Next.js ----------
+node_modules/
+client/.next/
+client/out/
+client/next-env.d.ts
+client/*.tsbuildinfo
+npm-debug.log*
+
+# ---------- Секреты и окружение ----------
+.env
+.env.*
+!.env.example
+
+# ---------- IDE ----------
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
+# ---------- ОС ----------
+.DS_Store
+Thumbs.db
+desktop.ini
