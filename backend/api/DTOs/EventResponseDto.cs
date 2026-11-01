@@ -6,5 +6,6 @@ public record EventResponseDto(
     DateTime StartTime,
     int MaxSeats,
     int TakenSeats,
-    int FreeSeats
+    int FreeSeats,
+    string? Description
 );

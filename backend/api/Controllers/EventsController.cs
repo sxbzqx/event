@@ -16,16 +16,25 @@ public class EventsController : ControllerBase
         _eventService = eventService;
     }
 
+    /// <summary>
+    /// Создание события
+    /// </summary>
     [HttpPost]
     public async Task<IActionResult> CreateEvent([FromBody] CreateEventDto dto)
     {
         if (string.IsNullOrWhiteSpace(dto.Title) || dto.MaxSeats <= 0)
             return BadRequest(new { error = "Invalid event data" });
 
+        if (dto.Description?.Length > 1000)
+            return BadRequest(new { error = "Descript must be at most 1000 characters."});
+
         var id = await _eventService.CreateEventAsync(dto);
         return StatusCode(201, new { id });
     }
 
+    /// <summary>
+    /// Получение всех событый 
+    /// </summary>
     [HttpGet]
     public async Task<IActionResult> GetAllEvents()
     {
@@ -33,17 +42,22 @@ public class EventsController : ControllerBase
         return Ok(events);
     }
 
+    /// <summary>
+    /// Получение конкретного события  
+    /// </summary>
     [HttpGet("{id:int}")]
     public async Task<IActionResult> GetEvent(int id)
     {
         var ev = await _eventService.GetEventAsync(id);
         if (ev == null)
-            return NotFound(new { error = "Event not found" });
+            return NotFound(new { error = "Cобытие не найдено" });
 
         return Ok(ev);
     }
 
-    // Новый эндпоинт: список тех, кто уже записался на конкретное событие
+    /// <summary>
+    /// Список тех, кто уже записался на конкретное событие
+    /// </summary>
     [HttpGet("{id:int}/registrations")]
     public async Task<IActionResult> GetEventRegistrations(int id)
     {

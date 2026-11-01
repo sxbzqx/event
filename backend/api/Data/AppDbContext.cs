@@ -14,7 +14,10 @@ public class AppDbContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
 
-        // Один email — одна запись на конкретное мероприятие
+        modelBuilder.Entity<Event>()
+            .Property(e => e.Description)
+            .HasMaxLength(1000);
+
         modelBuilder.Entity<Registration>()
             .HasIndex(r => new { r.EventId, r.Email })
             .IsUnique();

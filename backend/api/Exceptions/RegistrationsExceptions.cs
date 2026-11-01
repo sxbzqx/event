@@ -1,6 +1,6 @@
 namespace api.Exceptions;
 
-public class EventNotFoundException() : Exception("Event not found");
-public class EventStartedException() : Exception("Event has already started");
-public class NoSeatsException() : Exception("No seats available");
-public class AlreadyRegisteredException() : Exception("Email already registered");
+public class EventNotFoundException() : Exception("Событие не найдено");
+public class EventStartedException() : Exception("Событие уже началось");
+public class NoSeatsException() : Exception("Нет свободных мест");
+public class AlreadyRegisteredException() : Exception("Email уже зарегистрирован");
