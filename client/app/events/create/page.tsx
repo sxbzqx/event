@@ -1,44 +1,46 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { API_URL } from '@/lib/api';
-import { inputClass, primaryBtn } from '@/lib/format';
-import { ArrowLeftIcon, CheckIcon } from '@/components/Icons';
+import { useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { API_URL } from "@/lib/api";
+import { inputClass, primaryBtn } from "@/lib/format";
+import { ArrowLeftIcon, CheckIcon } from "@/components/Icons";
 
 const PERKS = [
-  'Публикуется сразу после создания',
-  'Лимит мест считается автоматически',
-  'Один email — одна запись на событие',
+  "Публикуется сразу после создания",
+  "Лимит мест считается автоматически",
+  "Один email — одна запись на событие",
 ];
 
 export default function CreateEventPage() {
-  const [title, setTitle] = useState('');
-  const [startTime, setStartTime] = useState('');
+  const [title, setTitle] = useState("");
+  const [startTime, setStartTime] = useState("");
   const [maxSeats, setMaxSeats] = useState(10);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const [description, setDescription] = useState("");
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
+    setError("");
     setSubmitting(true);
 
     try {
       const res = await fetch(`${API_URL}/api/events`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           title,
+          description: description.trim() || null,
           startTime: new Date(startTime).toISOString(),
           maxSeats: Number(maxSeats),
         }),
       });
 
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Не удалось создать событие');
+      if (!res.ok) throw new Error(data.error || "Не удалось создать событие");
 
       router.push(`/events/${data.id}`);
     } catch (err) {
@@ -61,9 +63,12 @@ export default function CreateEventPage() {
           <div className="bg-dots absolute inset-0 opacity-40" />
           <div className="absolute -bottom-16 -right-10 h-56 w-56 rounded-full bg-blue-500/40 blur-3xl" />
           <div className="relative space-y-6">
-            <h1 className="text-3xl font-extrabold leading-tight">Создать мероприятие</h1>
+            <h1 className="text-3xl font-extrabold leading-tight">
+              Создать мероприятие
+            </h1>
             <p className="text-sm text-slate-300">
-              Укажите название, время и количество мест — остальное сделает EventFlow.
+              Укажите название, время и количество мест — остальное сделает
+              EventFlow.
             </p>
             <ul className="space-y-3 text-sm">
               {PERKS.map((p) => (
@@ -80,7 +85,9 @@ export default function CreateEventPage() {
 
         <form onSubmit={handleSubmit} className="space-y-5 p-8">
           <div>
-            <label className="mb-1.5 block text-sm font-medium text-slate-700">Название</label>
+            <label className="mb-1.5 block text-sm font-medium text-slate-700">
+              Название
+            </label>
             <input
               type="text"
               value={title}
@@ -90,9 +97,24 @@ export default function CreateEventPage() {
               className={inputClass}
             />
           </div>
+          <div>
+            <label className="mb-1.5 block text-sm font-medium text-slate-700">
+              Описание
+            </label>
+            <textarea
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              maxLength={1000}
+              rows={4}
+              placeholder="О чём событие (необязательно)"
+              className={inputClass}
+            />
+          </div>
           <div className="grid gap-5 sm:grid-cols-2">
             <div>
-              <label className="mb-1.5 block text-sm font-medium text-slate-700">Дата и время</label>
+              <label className="mb-1.5 block text-sm font-medium text-slate-700">
+                Дата и время
+              </label>
               <input
                 type="datetime-local"
                 value={startTime}
@@ -102,7 +124,9 @@ export default function CreateEventPage() {
               />
             </div>
             <div>
-              <label className="mb-1.5 block text-sm font-medium text-slate-700">Максимум мест</label>
+              <label className="mb-1.5 block text-sm font-medium text-slate-700">
+                Максимум мест
+              </label>
               <input
                 type="number"
                 value={maxSeats}
@@ -114,10 +138,18 @@ export default function CreateEventPage() {
             </div>
           </div>
 
-          {error && <p className="rounded-xl bg-red-50 px-3.5 py-2.5 text-sm text-red-700">{error}</p>}
+          {error && (
+            <p className="rounded-xl bg-red-50 px-3.5 py-2.5 text-sm text-red-700">
+              {error}
+            </p>
+          )}
 
-          <button type="submit" disabled={submitting} className={`${primaryBtn} w-full py-3`}>
-            {submitting ? 'Создаём…' : 'Создать событие'}
+          <button
+            type="submit"
+            disabled={submitting}
+            className={`${primaryBtn} w-full py-3`}
+          >
+            {submitting ? "Создаём…" : "Создать событие"}
           </button>
         </form>
       </div>

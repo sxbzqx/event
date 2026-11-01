@@ -5,4 +5,5 @@ export interface EventData {
   maxSeats: number;
   takenSeats: number;
   freeSeats: number;
+  description? : string | null;
 }
